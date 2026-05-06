@@ -1,0 +1,263 @@
+{
+  "name": "My workflow 5",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1JbFnbgeSAZQfihHkhpjcl9cBYjTJnRxO34_2G6MnQag",
+          "mode": "list",
+          "cachedResultName": "switch statment",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JbFnbgeSAZQfihHkhpjcl9cBYjTJnRxO34_2G6MnQag/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JbFnbgeSAZQfihHkhpjcl9cBYjTJnRxO34_2G6MnQag/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d03e343c-5447-4be2-b926-a4bf234bdadb",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "KdVNkyM2etF6VKTA",
+          "name": "google sheet"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.priority }}",
+                    "rightValue": "high",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "7fc10b7c-e621-4b59-b14a-7fadb2ce957a"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "high"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a3726ec9-51aa-4a67-8264-38ab020fe9d8",
+                    "leftValue": "={{ $json.priority }}",
+                    "rightValue": "mediam",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "mediam"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b389bc13-0c7a-4c83-bdb4-741a3fbcd456",
+                    "leftValue": "={{ $json.priority }}",
+                    "rightValue": "low",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "low"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "8cf0487c-9d60-4616-bd44-7b800c23c024",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Google Sheets Trigger').item.json.email }}",
+        "subject": "your task",
+        "emailType": "text",
+        "message": "=hi ,{{ $('Google Sheets Trigger').item.json.name }} your task is: {{ $('Google Sheets Trigger').item.json.task }} and your deadline is :today",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        -96
+      ],
+      "id": "cc6c9b99-fac6-4dbf-a7ca-16667e2d7993",
+      "name": "Send a message",
+      "webhookId": "e522f0b2-4e51-4a2b-883c-7e1660ae5409",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ny74X13VS3JiQbPC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Google Sheets Trigger').item.json.email }}",
+        "subject": "your task",
+        "emailType": "text",
+        "message": "=hi ,{{ $('Google Sheets Trigger').item.json.name }} your task is: {{ $('Google Sheets Trigger').item.json.task }} and your deadline is :today",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        720,
+        16
+      ],
+      "id": "d3a3185b-54b7-4586-b250-67e8710b24f4",
+      "name": "Send a message2",
+      "webhookId": "7f9a12ca-6e12-4998-8593-7c67b2426c35",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ny74X13VS3JiQbPC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Google Sheets Trigger').item.json.email }}",
+        "subject": "your task",
+        "emailType": "text",
+        "message": "=hi ,{{ $('Google Sheets Trigger').item.json.name }} your task is: {{ $('Google Sheets Trigger').item.json.task }} and your deadline is :today",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        112
+      ],
+      "id": "1c77c578-7d25-47da-92aa-87936d4cd5be",
+      "name": "Send a message1",
+      "webhookId": "ccba4e3b-2600-4bbf-8174-dd50083fe41b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ny74X13VS3JiQbPC",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message2": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "8fbc2715-ddcd-48f1-88ba-0ccdd48f5ca5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "016fc0340d5bca8a0c6c73b85fee9f8049911e2827bdfaaa12c8ad88c03f5cd5"
+  },
+  "id": "y3wYHrKeBVzRpaVd",
+  "tags": []
+}
